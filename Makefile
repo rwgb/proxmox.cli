@@ -1,14 +1,22 @@
-.PHONY: help install install-dev test lint format clean build
+.PHONY: help install install-dev test lint format clean build publish bump-patch bump-minor bump-major release
 
 help:
 	@echo "Available targets:"
-	@echo "  install      - Install package"
-	@echo "  install-dev  - Install package with development dependencies"
-	@echo "  test         - Run tests"
-	@echo "  lint         - Run linting"
-	@echo "  format       - Format code"
-	@echo "  clean        - Clean build artifacts"
-	@echo "  build        - Build distribution packages"
+	@echo "  install       - Install package"
+	@echo "  install-dev   - Install package with development dependencies"
+	@echo "  test          - Run tests"
+	@echo "  lint          - Run linting"
+	@echo "  format        - Format code"
+	@echo "  clean         - Clean build artifacts"
+	@echo "  build         - Build distribution packages"
+	@echo "  bump-patch    - Bump patch version (0.1.0 -> 0.1.1)"
+	@echo "  bump-minor    - Bump minor version (0.1.0 -> 0.2.0)"
+	@echo "  bump-major    - Bump major version (0.1.0 -> 1.0.0)"
+	@echo "  publish-test  - Publish to Test PyPI"
+	@echo "  publish-prod  - Publish to PyPI"
+	@echo "  release-patch - Complete patch release workflow"
+	@echo "  release-minor - Complete minor release workflow"
+	@echo "  release-major - Complete major release workflow"
 
 install:
 	pip install -e .
@@ -39,3 +47,27 @@ clean:
 
 build: clean
 	python -m build
+
+bump-patch:
+	./scripts/bump_version.sh patch
+
+bump-minor:
+	./scripts/bump_version.sh minor
+
+bump-major:
+	./scripts/bump_version.sh major
+
+publish-test:
+	./scripts/publish.sh test
+
+publish-prod:
+	./scripts/publish.sh prod
+
+release-patch:
+	./scripts/release.sh patch
+
+release-minor:
+	./scripts/release.sh minor
+
+release-major:
+	./scripts/release.sh major
