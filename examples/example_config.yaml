@@ -1,0 +1,31 @@
+# Example Proxmox CLI Configuration
+# Copy to ~/.config/proxmox-cli/config.yaml and customize
+
+proxmox:
+  # Proxmox host address (required)
+  host: "proxmox.example.com"
+  
+  # Username for authentication (default: root@pam)
+  user: "root@pam"
+  
+  # Verify SSL certificate (default: false)
+  verify_ssl: false
+  
+  # Optional: API token authentication (alternative to password)
+  # token_name: "mytoken"
+  # token_value: "your-token-value"
+
+output:
+  # Output format: table, json, yaml, plain (default: table)
+  format: "table"
+  
+  # Enable colored output (default: true)
+  color: true
+
+# Optional: Default node for operations
+# default_node: "pve1"
+
+# Optional: Logging configuration
+logging:
+  level: "INFO"
+  file: "~/.config/proxmox-cli/proxmox-cli.log"
