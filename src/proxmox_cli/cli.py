@@ -16,8 +16,15 @@ from proxmox_cli.commands import vm, container, node, storage, backup
 @click.option("--user", "-u", help="Proxmox user")
 @click.option("--password", "-p", help="Proxmox password")
 @click.option("--verify-ssl/--no-verify-ssl", default=None, help="Verify SSL certificate")
+@click.option(
+    "--output",
+    "-o",
+    type=click.Choice(["table", "json", "yaml", "plain"], case_sensitive=False),
+    default="json",
+    help="Output format (default: json)",
+)
 @click.pass_context
-def main(ctx, config, host, user, password, verify_ssl):
+def main(ctx, config, host, user, password, verify_ssl, output):
     """Proxmox CLI - Command-line interface for Proxmox Virtual Environment."""
     ctx.ensure_object(dict)
     ctx.obj["config_path"] = config
@@ -25,6 +32,7 @@ def main(ctx, config, host, user, password, verify_ssl):
     ctx.obj["user"] = user
     ctx.obj["password"] = password
     ctx.obj["verify_ssl"] = verify_ssl
+    ctx.obj["output_format"] = output
 
 
 # Register command groups

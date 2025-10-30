@@ -106,3 +106,12 @@ def print_info(message: str) -> None:
         message: Info message to print
     """
     console.print(f"[blue]ℹ[/blue] {message}", style="blue")
+
+
+def print_json(data: Any) -> None:
+    """Print data as JSON.
+
+    Args:
+        data: Data to output as JSON
+    """
+    print(json.dumps(data, indent=2))

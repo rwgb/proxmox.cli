@@ -1,7 +1,7 @@
 """Node management commands."""
 import click
 from proxmox_cli.commands.helpers import get_proxmox_client
-from proxmox_cli.utils.output import print_table, print_error
+from proxmox_cli.utils.output import print_table, print_error, print_json
 
 
 @click.group()
@@ -20,12 +20,22 @@ def list_nodes(ctx):
         nodes = client.get_nodes()
         
         if nodes:
-            print_table(nodes, title="Cluster Nodes")
+            output_format = ctx.obj.get("output_format", "json")
+            if output_format == "json":
+                print_json(nodes)
+            else:
+                print_table(nodes, title="Cluster Nodes")
         else:
-            print_error("No nodes found")
+            if ctx.obj.get("output_format", "json") == "json":
+                print_json([])
+            else:
+                print_error("No nodes found")
     
     except Exception as e:
-        print_error(f"Failed to list nodes: {str(e)}")
+        if ctx.obj.get("output_format", "json") == "json":
+            print_json({"error": str(e)})
+        else:
+            print_error(f"Failed to list nodes: {str(e)}")
 
 
 @node.command("status")

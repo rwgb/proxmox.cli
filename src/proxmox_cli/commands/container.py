@@ -1,7 +1,7 @@
 """LXC Container management commands."""
 import click
 from proxmox_cli.commands.helpers import get_proxmox_client
-from proxmox_cli.utils.output import print_table, print_success, print_error
+from proxmox_cli.utils.output import print_table, print_success, print_error, print_json
 
 
 @click.group()
@@ -25,19 +25,35 @@ def list_containers(ctx, node):
             filtered_containers = []
             for c in containers:
                 filtered_containers.append({
-                    'VMID': c.get('vmid'),
-                    'Name': c.get('name'),
-                    'Status': c.get('status'),
-                    'CPU': f"{c.get('cpu', 0)*100:.2f}%",
-                    'Memory': f"{c.get('mem', 0) / (1024**3):.2f}GB / {c.get('maxmem', 0) / (1024**3):.2f}GB",
-                    'Uptime': f"{c.get('uptime', 0) // 86400}d {(c.get('uptime', 0) % 86400) // 3600}h",
+                    'vmid': c.get('vmid'),
+                    'name': c.get('name'),
+                    'status': c.get('status'),
+                    'cpu': f"{c.get('cpu', 0)*100:.2f}%",
+                    'memory': f"{c.get('mem', 0) / (1024**3):.2f}GB / {c.get('maxmem', 0) / (1024**3):.2f}GB",
+                    'uptime': f"{c.get('uptime', 0) // 86400}d {(c.get('uptime', 0) % 86400) // 3600}h",
                 })
-            print_table(filtered_containers, title="LXC Containers")
+            
+            # Check output format from context
+            output_format = ctx.obj.get("output_format", "json")
+            if output_format == "json":
+                print_json(filtered_containers)
+            else:
+                # Convert keys to uppercase for table display
+                table_data = []
+                for item in filtered_containers:
+                    table_data.append({k.upper(): v for k, v in item.items()})
+                print_table(table_data, title="LXC Containers")
         else:
-            print_error("No containers found")
+            if ctx.obj.get("output_format", "json") == "json":
+                print_json([])
+            else:
+                print_error("No containers found")
     
     except Exception as e:
-        print_error(f"Failed to list containers: {str(e)}")
+        if ctx.obj.get("output_format", "json") == "json":
+            print_json({"error": str(e)})
+        else:
+            print_error(f"Failed to list containers: {str(e)}")
 
 
 @container.command("start")
