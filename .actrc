@@ -1,0 +1,14 @@
+# Act configuration for running GitHub Actions locally
+# Use medium-sized runner image for better compatibility
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+-P macos-latest=catthehacker/ubuntu:act-latest
+-P windows-latest=catthehacker/ubuntu:act-latest
+
+# Use environment file if exists
+--env-file .env.act
+
+# Reuse containers for faster subsequent runs
+--reuse
+
+# Show verbose output
+--verbose
