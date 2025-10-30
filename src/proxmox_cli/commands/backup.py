@@ -1,4 +1,5 @@
 """Backup management commands."""
+
 import click
 from proxmox_cli.client import ProxmoxClient
 from proxmox_cli.config import Config
@@ -25,9 +26,9 @@ def list_backups(ctx, node, storage):
             password=ctx.obj.get("password"),
             verify_ssl=ctx.obj.get("verify_ssl", config.get("proxmox.verify_ssl", True)),
         )
-        
+
         # Implementation depends on Proxmox backup structure
         print_error("Backup listing not yet implemented")
-    
+
     except Exception as e:
         print_error(f"Failed to list backups: {str(e)}")

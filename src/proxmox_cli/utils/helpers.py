@@ -1,4 +1,5 @@
 """Helper utility functions."""
+
 import re
 from typing import Optional
 
@@ -43,11 +44,11 @@ def parse_size(size_str: str) -> Optional[int]:
         "G": 1024**3,
         "T": 1024**4,
     }
-    
+
     match = re.match(r"^(\d+)([KMGT])?$", size_str.upper())
     if not match:
         return None
-    
+
     value, unit = match.groups()
     multiplier = units.get(unit, 1) if unit else 1
     return int(value) * multiplier
@@ -81,7 +82,7 @@ def format_uptime(seconds: int) -> str:
     days, remainder = divmod(seconds, 86400)
     hours, remainder = divmod(remainder, 3600)
     minutes, seconds = divmod(remainder, 60)
-    
+
     parts = []
     if days > 0:
         parts.append(f"{days}d")
@@ -91,5 +92,5 @@ def format_uptime(seconds: int) -> str:
         parts.append(f"{minutes}m")
     if seconds > 0 or not parts:
         parts.append(f"{seconds}s")
-    
+
     return " ".join(parts)

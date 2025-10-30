@@ -1,4 +1,5 @@
 """User management commands."""
+
 import click
 from proxmox_cli.commands.helpers import get_proxmox_client
 from proxmox_cli.utils.output import print_table, print_success, print_error, print_json
@@ -16,9 +17,9 @@ def list_users(ctx):
     """List all users."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         users = client.api.access.users.get()
-        
+
         if users:
             output_format = ctx.obj.get("output_format", "json")
             if output_format == "json":
@@ -30,7 +31,7 @@ def list_users(ctx):
                 print_json([])
             else:
                 print_error("No users found")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e)})
@@ -53,11 +54,11 @@ def create_user(ctx, userid, password, email, firstname, lastname, groups, enabl
     """Create a new user."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         user_data = {
             "userid": userid,
         }
-        
+
         if password:
             user_data["password"] = password
         if email:
@@ -74,14 +75,14 @@ def create_user(ctx, userid, password, email, firstname, lastname, groups, enabl
             user_data["expire"] = expire
         if comment:
             user_data["comment"] = comment
-        
+
         client.api.access.users.post(**user_data)
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "userid": userid})
         else:
             print_success(f"User '{userid}' created successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -96,14 +97,14 @@ def delete_user(ctx, userid):
     """Delete a user."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         client.api.access.users(userid).delete()
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "userid": userid})
         else:
             print_success(f"User '{userid}' deleted successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -125,9 +126,9 @@ def update_user(ctx, userid, email, firstname, lastname, groups, enable, expire,
     """Update user information."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         user_data = {}
-        
+
         if email:
             user_data["email"] = email
         if firstname:
@@ -142,17 +143,17 @@ def update_user(ctx, userid, email, firstname, lastname, groups, enable, expire,
             user_data["expire"] = expire
         if comment:
             user_data["comment"] = comment
-        
+
         if not user_data:
             raise ValueError("No update parameters provided")
-        
+
         client.api.access.users(userid).put(**user_data)
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "userid": userid})
         else:
             print_success(f"User '{userid}' updated successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -167,15 +168,15 @@ def show_user(ctx, userid):
     """Show user details."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         user_info = client.api.access.users(userid).get()
-        
+
         output_format = ctx.obj.get("output_format", "json")
         if output_format == "json":
             print_json(user_info)
         else:
             print_table([user_info], title=f"User: {userid}")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e)})
@@ -191,14 +192,14 @@ def set_password(ctx, userid, password):
     """Change user password."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         client.api.access.password.put(userid=userid, password=password)
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "userid": userid})
         else:
             print_success(f"Password changed for user '{userid}'")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})

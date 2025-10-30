@@ -1,4 +1,5 @@
 """Proxmox API client wrapper."""
+
 from typing import Optional, Dict, Any
 from proxmoxer import ProxmoxAPI
 import urllib3
@@ -89,7 +90,7 @@ class ProxmoxClient:
         """
         if node:
             return self.api.nodes(node).qemu.get()
-        
+
         # Get VMs from all nodes, skipping unreachable nodes
         vms = []
         for node_info in self.get_nodes():
@@ -113,7 +114,7 @@ class ProxmoxClient:
         """
         if node:
             return self.api.nodes(node).lxc.get()
-        
+
         # Get containers from all nodes, skipping unreachable nodes
         containers = []
         for node_info in self.get_nodes():
