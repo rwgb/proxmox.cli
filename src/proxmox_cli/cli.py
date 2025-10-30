@@ -1,7 +1,7 @@
 """Main CLI entry point for proxmox-cli."""
 import click
 from proxmox_cli import __version__
-from proxmox_cli.commands import vm, container, node, storage, backup
+from proxmox_cli.commands import vm, container, node, storage, backup, user, group, role, acl, token
 
 
 @click.group()
@@ -41,6 +41,13 @@ main.add_command(container.container)
 main.add_command(node.node)
 main.add_command(storage.storage)
 main.add_command(backup.backup)
+
+# IAM command groups
+main.add_command(user.user)
+main.add_command(group.group)
+main.add_command(role.role)
+main.add_command(acl.acl)
+main.add_command(token.token)
 
 
 if __name__ == "__main__":
