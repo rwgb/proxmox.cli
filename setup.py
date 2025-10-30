@@ -9,8 +9,8 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name="proxmox-cli",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Ralph Brynard",
+    author_email="ralph@thebrynards.me",
     description="A command-line interface for Proxmox Virtual Environment",
     long_description=long_description,
     long_description_content_type="text/markdown",
