@@ -1,12 +1,13 @@
 """Tests for utility functions."""
 
 import pytest
+
 from proxmox_cli.utils.helpers import (
-    validate_vmid,
-    validate_ip,
-    parse_size,
     format_size,
     format_uptime,
+    parse_size,
+    validate_ip,
+    validate_vmid,
 )
 
 

@@ -1,7 +1,9 @@
 """Tests for configuration management."""
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 from proxmox_cli.config import Config
 
 

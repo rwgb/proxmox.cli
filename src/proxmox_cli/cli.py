@@ -1,8 +1,9 @@
 """Main CLI entry point for proxmox-cli."""
 
 import click
+
 from proxmox_cli import __version__
-from proxmox_cli.commands import vm, container, node, storage, backup, user, group, role, acl, token
+from proxmox_cli.commands import acl, backup, container, group, node, role, storage, token, user, vm
 
 
 @click.group()

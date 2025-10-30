@@ -1,11 +1,12 @@
 """Output formatting utilities."""
 
-from typing import List, Dict, Any
-from enum import Enum
 import json
-from tabulate import tabulate
+from enum import Enum
+from typing import Any, Dict, List
+
 from rich.console import Console
 from rich.table import Table
+from tabulate import tabulate
 
 
 class OutputFormat(Enum):

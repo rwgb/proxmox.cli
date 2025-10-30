@@ -1,8 +1,9 @@
 """Proxmox API client wrapper."""
 
-from typing import Optional, Dict, Any
-from proxmoxer import ProxmoxAPI
+from typing import Any, Dict, Optional
+
 import urllib3
+from proxmoxer import ProxmoxAPI
 
 
 class ProxmoxClient:

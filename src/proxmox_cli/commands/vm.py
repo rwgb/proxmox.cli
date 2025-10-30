@@ -1,8 +1,9 @@
 """Virtual Machine management commands."""
 
 import click
+
 from proxmox_cli.commands.helpers import get_proxmox_client
-from proxmox_cli.utils.output import print_table, print_success, print_error, print_json
+from proxmox_cli.utils.output import print_error, print_json, print_success, print_table
 
 
 @click.group()
