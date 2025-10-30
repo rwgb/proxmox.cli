@@ -1,4 +1,5 @@
 """Tests for utility functions."""
+
 import pytest
 from proxmox_cli.utils.helpers import (
     validate_vmid,

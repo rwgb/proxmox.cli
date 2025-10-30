@@ -66,5 +66,10 @@ config.yaml
 *.secret
 *.key
 
+# Act (local GitHub Actions)
+.env.act
+.actrc.local
+
 # Logs
 *.log
+bin/

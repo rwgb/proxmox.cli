@@ -1,4 +1,5 @@
 """Role management commands."""
+
 import click
 from proxmox_cli.commands.helpers import get_proxmox_client
 from proxmox_cli.utils.output import print_table, print_success, print_error, print_json
@@ -16,9 +17,9 @@ def list_roles(ctx):
     """List all roles."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         roles = client.api.access.roles.get()
-        
+
         if roles:
             output_format = ctx.obj.get("output_format", "json")
             if output_format == "json":
@@ -30,7 +31,7 @@ def list_roles(ctx):
                 print_json([])
             else:
                 print_error("No roles found")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e)})
@@ -46,18 +47,18 @@ def create_role(ctx, roleid, privs):
     """Create a new role."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         role_data = {"roleid": roleid}
         if privs:
             role_data["privs"] = privs
-        
+
         client.api.access.roles.post(**role_data)
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "roleid": roleid})
         else:
             print_success(f"Role '{roleid}' created successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -72,14 +73,14 @@ def delete_role(ctx, roleid):
     """Delete a role."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         client.api.access.roles(roleid).delete()
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "roleid": roleid})
         else:
             print_success(f"Role '{roleid}' deleted successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -96,18 +97,18 @@ def update_role(ctx, roleid, privs, append):
     """Update role privileges."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         role_data = {"privs": privs}
         if append:
             role_data["append"] = 1
-        
+
         client.api.access.roles(roleid).put(**role_data)
-        
+
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"success": True, "roleid": roleid})
         else:
             print_success(f"Role '{roleid}' updated successfully")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e), "success": False})
@@ -122,15 +123,15 @@ def show_role(ctx, roleid):
     """Show role details."""
     try:
         client = get_proxmox_client(ctx)
-        
+
         role_info = client.api.access.roles(roleid).get()
-        
+
         output_format = ctx.obj.get("output_format", "json")
         if output_format == "json":
             print_json(role_info)
         else:
             print_table([role_info], title=f"Role: {roleid}")
-    
+
     except Exception as e:
         if ctx.obj.get("output_format", "json") == "json":
             print_json({"error": str(e)})

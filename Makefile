@@ -1,4 +1,4 @@
-.PHONY: help install install-dev test lint format clean build publish bump-patch bump-minor bump-major release
+.PHONY: help install install-dev test lint format clean build publish bump-patch bump-minor bump-major release act-test act-publish act-list
 
 help:
 	@echo "Available targets:"
@@ -17,6 +17,9 @@ help:
 	@echo "  release-patch - Complete patch release workflow"
 	@echo "  release-minor - Complete minor release workflow"
 	@echo "  release-major - Complete major release workflow"
+	@echo "  act-test      - Run tests workflow locally with act (Python 3.11/Ubuntu)"
+	@echo "  act-publish   - Run publish workflow locally with act"
+	@echo "  act-list      - List all available workflows and jobs"
 
 install:
 	pip install -e .
@@ -71,3 +74,13 @@ release-minor:
 
 release-major:
 	./scripts/release.sh major
+
+# Act (local GitHub Actions) targets
+act-test:
+	./scripts/run-actions.sh tests --platform ubuntu-latest --python 3.11
+
+act-publish:
+	./scripts/run-actions.sh publish --event release --dry-run
+
+act-list:
+	./scripts/run-actions.sh all

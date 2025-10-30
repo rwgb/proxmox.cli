@@ -1,4 +1,5 @@
 """Main CLI entry point for proxmox-cli."""
+
 import click
 from proxmox_cli import __version__
 from proxmox_cli.commands import vm, container, node, storage, backup, user, group, role, acl, token

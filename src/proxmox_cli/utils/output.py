@@ -1,4 +1,5 @@
 """Output formatting utilities."""
+
 from typing import List, Dict, Any
 from enum import Enum
 import json
@@ -19,7 +20,9 @@ class OutputFormat(Enum):
 console = Console()
 
 
-def format_output(data: Any, format: OutputFormat = OutputFormat.TABLE, headers: List[str] = None) -> str:
+def format_output(
+    data: Any, format: OutputFormat = OutputFormat.TABLE, headers: List[str] = None
+) -> str:
     """Format output data according to specified format.
 
     Args:
@@ -32,18 +35,19 @@ def format_output(data: Any, format: OutputFormat = OutputFormat.TABLE, headers:
     """
     if format == OutputFormat.JSON:
         return json.dumps(data, indent=2)
-    
+
     elif format == OutputFormat.TABLE:
         if isinstance(data, list) and data:
             if headers is None:
                 headers = list(data[0].keys()) if isinstance(data[0], dict) else []
             return tabulate(data, headers="keys" if not headers else headers, tablefmt="grid")
         return str(data)
-    
+
     elif format == OutputFormat.YAML:
         import yaml
+
         return yaml.dump(data, default_flow_style=False)
-    
+
     else:  # PLAIN
         return str(data)
 
@@ -60,15 +64,15 @@ def print_table(data: List[Dict[str, Any]], title: str = None) -> None:
         return
 
     table = Table(title=title, show_header=True, header_style="bold magenta")
-    
+
     # Add columns
     for key in data[0].keys():
         table.add_column(str(key).upper())
-    
+
     # Add rows
     for item in data:
         table.add_row(*[str(v) for v in item.values()])
-    
+
     console.print(table)
 
 
