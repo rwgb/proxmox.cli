@@ -3,7 +3,19 @@
 import click
 
 from proxmox_cli import __version__
-from proxmox_cli.commands import acl, backup, container, group, node, role, storage, token, user, vm
+from proxmox_cli.commands import (
+    acl,
+    backup,
+    container,
+    group,
+    image,
+    node,
+    role,
+    storage,
+    token,
+    user,
+    vm,
+)
 
 
 @click.group()
@@ -43,6 +55,7 @@ main.add_command(container.container)
 main.add_command(node.node)
 main.add_command(storage.storage)
 main.add_command(backup.backup)
+main.add_command(image.image)
 
 # IAM command groups
 main.add_command(user.user)
