@@ -6,6 +6,12 @@
 
 A powerful command-line interface tool for managing Proxmox Virtual Environment with support for VMs, containers, users, groups, roles, and permissions.
 
+## Support
+
+If you find this project helpful, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg)](https://buymeacoffee.com/rwgb)
+
 ## Features
 
 ### Infrastructure Management
