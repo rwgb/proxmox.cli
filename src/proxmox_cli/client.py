@@ -127,3 +127,88 @@ class ProxmoxClient:
                 # Skip nodes that fail to respond (offline, network issues, etc.)
                 continue
         return containers
+
+    def get_pools(self) -> list:
+        """Get list of resource pools.
+
+        Returns:
+            List of resource pool information dictionaries
+        """
+        return self.api.pools.get()
+
+    def get_pool(self, poolid: str) -> Dict[str, Any]:
+        """Get resource pool details.
+
+        Args:
+            poolid: Pool identifier
+
+        Returns:
+            Pool information dictionary including members
+        """
+        return self.api.pools(poolid).get()
+
+    def create_pool(self, poolid: str, comment: Optional[str] = None) -> None:
+        """Create a new resource pool.
+
+        Args:
+            poolid: Pool identifier
+            comment: Optional comment/description
+        """
+        pool_data = {"poolid": poolid}
+        if comment:
+            pool_data["comment"] = comment
+        self.api.pools.post(**pool_data)
+
+    def update_pool(self, poolid: str, comment: Optional[str] = None) -> None:
+        """Update resource pool information.
+
+        Args:
+            poolid: Pool identifier
+            comment: Optional comment/description
+        """
+        if comment:
+            self.api.pools(poolid).put(comment=comment)
+
+    def delete_pool(self, poolid: str) -> None:
+        """Delete a resource pool.
+
+        Args:
+            poolid: Pool identifier
+        """
+        self.api.pools(poolid).delete()
+
+    def add_pool_members(
+        self, poolid: str, vms: Optional[list] = None, storages: Optional[list] = None
+    ) -> None:
+        """Add members to a resource pool.
+
+        Args:
+            poolid: Pool identifier
+            vms: Optional list of VM IDs
+            storages: Optional list of storage IDs
+        """
+        update_data = {}
+        if vms:
+            update_data["vms"] = ",".join(str(vm) for vm in vms)
+        if storages:
+            update_data["storage"] = ",".join(storages)
+        if update_data:
+            self.api.pools(poolid).put(**update_data)
+
+    def remove_pool_members(
+        self, poolid: str, vms: Optional[list] = None, storages: Optional[list] = None
+    ) -> None:
+        """Remove members from a resource pool.
+
+        Args:
+            poolid: Pool identifier
+            vms: Optional list of VM IDs
+            storages: Optional list of storage IDs
+        """
+        delete_data = {"delete": 1}
+        if vms:
+            delete_data["vms"] = ",".join(str(vm) for vm in vms)
+        if storages:
+            delete_data["storage"] = ",".join(storages)
+        if len(delete_data) > 1:  # More than just 'delete' key
+            self.api.pools(poolid).put(**delete_data)

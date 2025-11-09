@@ -13,6 +13,7 @@ A powerful command-line interface tool for managing Proxmox Virtual Environment 
 - 📦 **LXC Containers** - Full container lifecycle management
 - 🔧 **Nodes** - Monitor and manage cluster nodes
 - 💾 **Storage** - Storage configuration and monitoring
+- 🗂️ **Resource Pools** - Organize and manage resource pools
 
 ### Identity & Access Management (IAM)
 - 👤 **Users** - Create, update, and manage users
@@ -168,6 +169,39 @@ proxmox-cli token create user@pve mytoken \
 
 # Delete token
 proxmox-cli token delete user@pve mytoken
+```
+
+### Resource Pool Management
+
+```bash
+# List all resource pools
+proxmox-cli pool list
+
+# Create a new resource pool
+proxmox-cli pool create production \
+  --comment "Production environment resources"
+
+# Show pool details and members
+proxmox-cli pool show production
+
+# Add VMs to a pool
+proxmox-cli pool add-member production \
+  --vm 100 --vm 101 --vm 102
+
+# Add storage to a pool
+proxmox-cli pool add-member production \
+  --storage local-lvm
+
+# Remove members from a pool
+proxmox-cli pool remove-member production \
+  --vm 100
+
+# Update pool information
+proxmox-cli pool update production \
+  --comment "Updated production pool"
+
+# Delete a pool
+proxmox-cli pool delete production
 ```
 
 ## Output Formats
