@@ -10,6 +10,7 @@ from proxmox_cli.commands import (
     group,
     image,
     node,
+    pool,
     role,
     storage,
     token,
@@ -63,6 +64,9 @@ main.add_command(group.group)
 main.add_command(role.role)
 main.add_command(acl.acl)
 main.add_command(token.token)
+
+# Resource management
+main.add_command(pool.pool)
 
 
 if __name__ == "__main__":
