@@ -30,10 +30,20 @@ python -m build
 echo "🔍 Checking package..."
 twine check dist/*
 
+# Check for PyPI API token
+if [[ -z "$PY_PI_API_TOKEN" ]]; then
+    echo "⚠️  Warning: PY_PI_API_TOKEN environment variable not set"
+    echo "Twine will prompt for credentials or use ~/.pypirc"
+fi
+
 if [[ "$TARGET" == "test" ]]; then
     echo "📤 Uploading to Test PyPI..."
     echo "Repository: https://test.pypi.org/project/proxmox-cli/"
-    twine upload --repository testpypi dist/*
+    if [[ -n "$PY_PI_API_TOKEN" ]]; then
+        twine upload --repository testpypi --username __token__ --password "$PY_PI_API_TOKEN" dist/*
+    else
+        twine upload --repository testpypi dist/*
+    fi
     
     echo ""
     echo "✅ Published to Test PyPI!"
@@ -50,7 +60,11 @@ else
         exit 1
     fi
     
-    twine upload dist/*
+    if [[ -n "$PY_PI_API_TOKEN" ]]; then
+        twine upload --username __token__ --password "$PY_PI_API_TOKEN" dist/*
+    else
+        twine upload dist/*
+    fi
     
     echo ""
     echo "✅ Published to PyPI!"
