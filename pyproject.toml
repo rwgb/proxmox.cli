@@ -87,7 +87,7 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 
 [tool.bumpversion]
-current_version = "0.5.0"
+current_version = "0.5.1"
 commit = true
 tag = true
 tag_name = "v{new_version}"
