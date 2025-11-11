@@ -36,3 +36,35 @@ def test_container_command_group():
     result = runner.invoke(main, ["container", "--help"])
     assert result.exit_code == 0
     assert "container" in result.output.lower()
+
+
+def test_container_templates_command():
+    """Test container templates command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["container", "templates", "--help"])
+    assert result.exit_code == 0
+    assert "templates" in result.output.lower()
+
+
+def test_container_available_templates_command():
+    """Test container available-templates command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["container", "available-templates", "--help"])
+    assert result.exit_code == 0
+    assert "available" in result.output.lower() or "download" in result.output.lower()
+
+
+def test_container_download_template_command():
+    """Test container download-template command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["container", "download-template", "--help"])
+    assert result.exit_code == 0
+    assert "download" in result.output.lower()
+
+
+def test_container_create_command():
+    """Test container create command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["container", "create", "--help"])
+    assert result.exit_code == 0
+    assert "create" in result.output.lower()
