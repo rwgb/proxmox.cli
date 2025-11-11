@@ -6,6 +6,12 @@
 
 A powerful command-line interface tool for managing Proxmox Virtual Environment with support for VMs, containers, users, groups, roles, and permissions.
 
+## Support
+
+If you find this project helpful, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg)](https://buymeacoffee.com/rwgb)
+
 ## Features
 
 ### Infrastructure Management
@@ -118,6 +124,29 @@ proxmox-cli container start 108 --node pve1
 
 # Stop a container
 proxmox-cli container stop 108 --node pve1
+
+# List available templates on storage
+proxmox-cli container templates --node pve1
+
+# List templates available for download
+proxmox-cli container available-templates --node pve1
+
+# Download a template
+proxmox-cli container download-template \
+  ubuntu-22.04-standard_22.04-1_amd64.tar.zst \
+  --node pve1 \
+  --storage local
+
+# Create container from template
+proxmox-cli container create 200 \
+  local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst \
+  --node pve1 \
+  --hostname web-server \
+  --password "SecurePass123" \
+  --memory 1024 \
+  --cores 2 \
+  --rootfs-size 10 \
+  --net0 "name=eth0,bridge=vmbr0,ip=dhcp"
 ```
 
 ### User Management
