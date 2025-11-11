@@ -210,9 +210,7 @@ def download_template(ctx, template, node, storage):
     try:
         client = get_proxmox_client(ctx)
 
-        result = client.download_container_template(
-            node=node, storage=storage, template=template
-        )
+        result = client.download_container_template(node=node, storage=storage, template=template)
 
         output_format = ctx.obj.get("output_format", "json")
         if output_format == "json":
@@ -235,7 +233,9 @@ def download_template(ctx, template, node, storage):
 @click.option("--node", "-n", required=True, help="Node name")
 @click.option("--hostname", help="Container hostname")
 @click.option("--password", help="Root password")
-@click.option("--storage", "-s", default="local-lvm", help="Storage for rootfs (default: local-lvm)")
+@click.option(
+    "--storage", "-s", default="local-lvm", help="Storage for rootfs (default: local-lvm)"
+)
 @click.option("--memory", "-m", default=512, type=int, help="Memory in MB (default: 512)")
 @click.option("--cores", "-c", default=1, type=int, help="Number of CPU cores (default: 1)")
 @click.option("--rootfs-size", default=8, type=int, help="Root filesystem size in GB (default: 8)")
@@ -244,7 +244,19 @@ def download_template(ctx, template, node, storage):
 @click.option("--net0", help="Network configuration (e.g., 'name=eth0,bridge=vmbr0,ip=dhcp')")
 @click.pass_context
 def create_container(
-    ctx, vmid, ostemplate, node, hostname, password, storage, memory, cores, rootfs_size, nameserver, searchdomain, net0
+    ctx,
+    vmid,
+    ostemplate,
+    node,
+    hostname,
+    password,
+    storage,
+    memory,
+    cores,
+    rootfs_size,
+    nameserver,
+    searchdomain,
+    net0,
 ):
     """Create a new LXC container from a template.
 
@@ -288,4 +300,3 @@ def create_container(
             print_json({"error": str(e)})
         else:
             print_error(f"Failed to create container: {str(e)}")
-

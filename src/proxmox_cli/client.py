@@ -213,7 +213,9 @@ class ProxmoxClient:
         if len(delete_data) > 1:  # More than just 'delete' key
             self.api.pools(poolid).put(**delete_data)
 
-    def get_storage_content(self, node: str, storage: str, content_type: Optional[str] = None) -> list:
+    def get_storage_content(
+        self, node: str, storage: str, content_type: Optional[str] = None
+    ) -> list:
         """Get storage content list.
 
         Args:
@@ -229,7 +231,9 @@ class ProxmoxClient:
             params["content"] = content_type
         return self.api.nodes(node).storage(storage).content.get(**params)
 
-    def get_container_templates(self, node: Optional[str] = None, storage: Optional[str] = None) -> list:
+    def get_container_templates(
+        self, node: Optional[str] = None, storage: Optional[str] = None
+    ) -> list:
         """Get available LXC container templates.
 
         Args:
@@ -263,8 +267,10 @@ class ProxmoxClient:
 
                     try:
                         # Get templates from this storage
-                        content = self.api.nodes(node_name).storage(storage_name).content.get(
-                            content="vztmpl"
+                        content = (
+                            self.api.nodes(node_name)
+                            .storage(storage_name)
+                            .content.get(content="vztmpl")
                         )
 
                         for item in content:
