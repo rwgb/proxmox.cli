@@ -4,11 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proxmox-cli"
-<<<<<<< HEAD
-version = "0.4.0"
-=======
 version = "0.4.1"
->>>>>>> release/0.4.1
 description = "A command-line interface for Proxmox Virtual Environment"
 readme = "README.md"
 requires-python = ">=3.8"
