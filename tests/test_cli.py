@@ -68,3 +68,28 @@ def test_container_create_command():
     result = runner.invoke(main, ["container", "create", "--help"])
     assert result.exit_code == 0
     assert "create" in result.output.lower()
+
+
+def test_storage_command_group():
+    """Test storage command group."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["storage", "--help"])
+    assert result.exit_code == 0
+    assert "storage" in result.output.lower()
+
+
+def test_storage_list_command():
+    """Test storage list command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["storage", "list", "--help"])
+    assert result.exit_code == 0
+    assert "list" in result.output.lower()
+
+
+def test_storage_create_command():
+    """Test storage create command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["storage", "create", "--help"])
+    assert result.exit_code == 0
+    assert "create" in result.output.lower()
+    assert "storage" in result.output.lower()

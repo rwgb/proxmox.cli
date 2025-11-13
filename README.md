@@ -233,6 +233,55 @@ proxmox-cli pool update production \
 proxmox-cli pool delete production
 ```
 
+### Storage Management
+
+```bash
+# List all storage
+proxmox-cli storage list
+
+# Create a directory storage for backups
+proxmox-cli storage create backup-storage \
+  --path /mnt/backups \
+  --content backup
+
+# Create storage for ISOs and templates
+proxmox-cli storage create iso-storage \
+  --path /mnt/isos \
+  --content "iso,vztmpl"
+
+# Create VM disk storage with shared flag
+proxmox-cli storage create vm-storage \
+  --path /mnt/vms \
+  --content "images,rootdir" \
+  --shared
+
+# Create snippets storage for custom scripts
+proxmox-cli storage create snippets-storage \
+  --path /mnt/snippets \
+  --content snippets
+
+# Create storage with backup retention
+proxmox-cli storage create backup-storage \
+  --path /mnt/backups \
+  --content backup \
+  --maxfiles 10 \
+  --prune-backups "keep-last=3,keep-weekly=2"
+
+# Create storage on specific nodes
+proxmox-cli storage create local-backup \
+  --path /mnt/local-backup \
+  --content backup \
+  --nodes "node1,node2"
+```
+
+**Content Types:**
+- `images` - VM disk images (qcow2, raw, vmdk)
+- `rootdir` - Container file systems
+- `vztmpl` - Container templates
+- `backup` - Backup files
+- `iso` - ISO images
+- `snippets` - Custom scripts and configuration snippets
+
 ## Output Formats
 
 The CLI supports multiple output formats:
