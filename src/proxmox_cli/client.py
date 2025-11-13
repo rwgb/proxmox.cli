@@ -364,3 +364,41 @@ class ProxmoxClient:
         container_data.update(kwargs)
 
         return self.api.nodes(node).lxc.post(**container_data)
+
+    def create_storage(
+        self,
+        storage_id: str,
+        storage_type: str,
+        path: str,
+        content: Optional[str] = None,
+        nodes: Optional[str] = None,
+        **kwargs,
+    ) -> None:
+        """Create a new storage.
+
+        Args:
+            storage_id: Storage identifier/name
+            storage_type: Storage type (dir, nfs, cifs, lvm, etc.)
+            path: Storage path on the filesystem
+            content: Content types (comma-separated: vztmpl,iso,backup,images,rootdir,snippets)
+            nodes: Comma-separated list of nodes (optional, defaults to all nodes)
+            **kwargs: Additional storage-specific parameters
+
+        Raises:
+            Exception: If storage creation fails
+        """
+        storage_data = {
+            "storage": storage_id,
+            "type": storage_type,
+            "path": path,
+        }
+
+        if content:
+            storage_data["content"] = content
+        if nodes:
+            storage_data["nodes"] = nodes
+
+        # Add any additional parameters
+        storage_data.update(kwargs)
+
+        self.api.storage.post(**storage_data)
