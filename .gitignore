@@ -73,3 +73,6 @@ config.yaml
 # Logs
 *.log
 bin/
+
+# Terraform provisioning scripts
+scripts/create-terraform-user.sh
