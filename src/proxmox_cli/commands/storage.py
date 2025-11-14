@@ -50,32 +50,43 @@ def list_storage(ctx):
     help="Content types (comma-separated: vztmpl,iso,backup,images,rootdir,snippets)",
 )
 @click.option("--nodes", "-n", help="Comma-separated list of cluster nodes (optional)")
-@click.option("--shared/--no-shared", default=False, help="Mark storage as shared (default: no)")
+@click.option(
+    "--shared/--no-shared",
+    default=False,
+    help="Mark storage as shared (default: no)",
+)
 @click.option("--maxfiles", type=int, help="Maximum number of backup files per VM")
-@click.option("--prune-backups", help="Retention options (e.g., 'keep-last=3,keep-weekly=2')")
+@click.option(
+    "--prune-backups",
+    help="Retention options (e.g., 'keep-last=3,keep-weekly=2')",
+)
 @click.pass_context
-def create_storage(ctx, storage_id, storage_type, path, content, nodes, shared, maxfiles, prune_backups):
+def create_storage(
+    ctx, storage_id, storage_type, path, content, nodes, shared, maxfiles, prune_backups
+):
     """Create a new storage directory.
-    
+
     STORAGE_ID: Unique identifier for the storage
-    
+
     Examples:
-    
+
     \b
     # Basic directory storage for backups
     proxmox-cli storage create backup-storage --path /mnt/backups --content backup
-    
+
     \b
     # ISO and template storage
     proxmox-cli storage create iso-storage --path /mnt/isos --content "iso,vztmpl"
-    
+
     \b
     # VM disk storage with shared flag
-    proxmox-cli storage create vm-storage --path /mnt/vms --content "images,rootdir" --shared
-    
+    proxmox-cli storage create vm-storage --path /mnt/vms \\
+      --content "images,rootdir" --shared
+
     \b
     # Snippets storage for custom scripts
-    proxmox-cli storage create snippets-storage --path /mnt/snippets --content snippets
+    proxmox-cli storage create snippets-storage --path /mnt/snippets \\
+      --content snippets
     """
     try:
         client = get_proxmox_client(ctx)
